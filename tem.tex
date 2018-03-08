@@ -160,10 +160,35 @@ Andiamo a studiare la prima coppia. La prima stringa si spezza come
 nuovi individui \code{01100} e \code{11001}. Si procede in modo analogo sulla
 seconda coppia per ottenere \code{11011} e \code{10000}.
 
+
+
 \subsection{Mutazione}
+
 Durante la mutazione ciascuna lettera di ogni stringa ha un probabilità di
 $\varepsilon=0.001$ di diventare un'altra lettera del vocabolario. In questo
 caso ci aspettiamo $Nl \varepsilon=4\cdot 5 \cdot 0.001= 0.02$ mutazioni. Di
 fatto andando a simulare non ne troviamo alcuna. 
+
+
+
+\subsection{Analisi dei risultati}
+
+Andiamo infine ad analizzare quali sono stati i risultati delle tre operazioni.
+Nella tabella seguente sono presenti alcuni dati sulla seconda generazione
+comparati con la prima.
+\begin{table}[h!]
+\begin{tabular}{cccc|c}
+\multicolumn{1}{c|}{$k$} & Stringa & Valore $x$ & fitness gen. 2 & fitness gen. 1 \\ \hline
+\multicolumn{1}{c|}{1} & \code{01100} & 12 & 144 & 169 \\
+\multicolumn{1}{c|}{2} & \code{11001} & 25 & 625 & 576 \\
+\multicolumn{1}{c|}{3} & \code{11011} & 27 & 729 & 64 \\
+\multicolumn{1}{c|}{4} & \code{10000} & 16 & 256 & 361 \\ \hline
+\multicolumn{3}{c}{media} & 438.5 & 229.5 \\
+\multicolumn{3}{c}{massimo} & 625 & 576
+\end{tabular}
+\end{table}
+
+Risulta dunque evidente che si ha avuto un incremento del fitness sia nel valore
+massimo che nel valore medio.
 
 \end{document}
