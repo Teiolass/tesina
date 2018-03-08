@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.12.30)  8 MAR 2018 18:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.12.30)  8 MAR 2018 18:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -172,32 +172,32 @@ LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 50.
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] (./tem.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] (./tem.aux) ) 
 Here is how much of TeX's memory you used:
  1969 strings out of 492985
  25589 string characters out of 6138637
- 100256 words of memory out of 5000000
+ 102256 words of memory out of 5000000
  5540 multiletter control sequences out of 15000+600000
  35200 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  25i,13n,23p,796b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr
-/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf-dist/fonts
-/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit
-.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/share/texmf-di
-st/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/
-share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/
-type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.p
-fb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dis
-t/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/
-lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/te
-xmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/pu
-blic/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on tem.pdf (3 pages, 151661 bytes).
+{
+/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf-dist/f
+onts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ma
+thit.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/share/texm
+f-dist/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></
+usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fo
+nts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmm
+i8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf
+-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public
+/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/shar
+e/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type
+1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on tem.pdf (4 pages, 169655 bytes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 70 PDF objects out of 1000 (max. 8388607)
+ 51 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -129,11 +129,41 @@ seguenti risultati.
 
 
 \subsection{Crossover}
+
 Supponiamo in una certa popolazione di avere individui con stringhe composte da
 un numero $l$ di lettere tratte dal vocabolario $V$. Nel nostro esempio $l=5$.
 Indico con $i_k^j$ la $j$-esima lettera della stringa dell'individuo $i_k$.
 Vediamo cosa succede eseguendo un crossover su due individui $i_1$ e $i_2$.
-Scelgo casualmente un un intero $c$ compreso tra $1$ e $l-1$. Il risultato del
-crossover sono un individuo $i_1'$
+Scelgo casualmente un un intero $c$ compreso tra $1$ e $l-1$ detto sito di
+crossover. Il risultato del crossover è un individuo $i_1'$ tale che
+$i_1'^n=i_1^n$ se $n\leq c$ e $i_1'^n=i_2^n$ altrimenti. Allo stesso modo viene
+prodotto un individuo $i_2'$ tale che $i_1'^n=i_2^n$ se $n\leq c$ e
+$i_1'^n=i_1^n$ altrimenti. In altri termini da un certo punto in poi le due
+stringhe si scambiano tra di loro. Per eseguire un crossover su un'intera
+popolazione, si devono accoppiare casualmente gli individui, e poi eseguire il
+crossover su ciascuna coppia. 
+
+Partiamo dalla popolazione derivante dalla riproduzione e accoppiamo casualmente
+gli individui. Scegliamo inoltre casualmente il sito di crossover.
+\begin{table}[h!]
+\begin{tabular}{l|lll}
+$k$ & Stringa & Compagno & Sito di crossover \\ \hline
+1 & \code{01101} & 2 & 4 \\
+2 & \code{11000} & 1 & 4 \\
+3 & \code{11000} & 4 & 2 \\
+4 & \code{10011} & 3 & 2
+\end{tabular}
+\end{table}
+
+Andiamo a studiare la prima coppia. La prima stringa si spezza come
+\code{0110-1}, mentre la seconda come \code{1100-0}. Si otterranno dunque i
+nuovi individui \code{01100} e \code{11001}. Si procede in modo analogo sulla
+seconda coppia per ottenere \code{11011} e \code{10000}.
+
+\subsection{Mutazione}
+Durante la mutazione ciascuna lettera di ogni stringa ha un probabilità di
+$\varepsilon=0.001$ di diventare un'altra lettera del vocabolario. In questo
+caso ci aspettiamo $Nl \varepsilon=4\cdot 5 \cdot 0.001= 0.02$ mutazioni. Di
+fatto andando a simulare non ne troviamo alcuna. 
 
 \end{document}
