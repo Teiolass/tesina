@@ -1,0 +1,139 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[italian]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{lmodern}
+
+\font\myfont=cmr12 at 25pt
+\newcommand{\code}{\texttt}
+
+\title{\myfont Algoritmi genetici v.0}
+\author{Alessio Marchetti}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Introduzione}
+
+Gli algoritmi genetici (GA) sono algoritmi di ricerca basati sulle meccaniche
+della selezione naturale e della genetica. Essi si basano sulla manipolazione di
+una popolazione di individui, ciascuno identificato da una propria stringa, che
+ne definisce il comportamento. Tale stringa può essere assimilata al DNA. Sulla
+popolazione vengono essenzialmente eseguiti tre tipi di azioni:
+\begin{enumerate}
+    \item
+    \textit{riproduzione}: Da una generazione (ovvero una popolazione in un
+        certo istante) si selezionano gli individui più adatti alla
+        sopravvivenza e si portano alla generazione successiva.
+    \item
+    \textit{crossover}: Gli individui di una popolazione scambiano fra di loro
+        porzioni di DNA.
+    \item
+    \textit{mutazione}: Sezioni di DNA variano casualmente, con una frequenza
+        fissata generalmente molto bassa.
+\end{enumerate}
+
+
+
+\section{Simulazione ``a mano''}
+
+Per avere un'idea del funzionamento di un GA mostro un esempio di funzionamento
+molto semplice e di cui è ben nota una soluzione. Si tratta di trovare il
+massimo e il punto di massimo della funzione $f(x)=x^2$ nell'intervallo
+$[0,31]$.
+
+Come prima cosa è necessario definire un vocabolario che andrà a comporre le
+stringhe del DNA. Lo faccio nella maniera più semplice possibile, ovvero
+$$V=\{0,1\}$$
+
+Inoltre definisco un individuo come un elemento dell'insieme $V^5$. Per esempio
+è un individuo \code{01001}. Ogni individuo codifica un certo valore di $x$, che
+per comodità scelgo essere la sua rappresentazione in base decimale. Il valore
+corrispondente a quello scelto in precedenza sarà dunque $9$.
+
+Per l'implementazione di un GA è inoltre necessaria una funzione detta di
+\textit{fitness}, tale che, dato un individuo, ne indichi la sua idoneità.
+Nell'esempio preso in esame è spontaneo scegliere $f$ stessa. Quindi
+\code{01001}  ha un fitness di $f(9)=9^2=81$.
+
+In questo esempio scelgo di avere una popolazione composta da $N=4$ individui. In
+genere questo numero è molto più grande per avere un algoritmo efficiente. La
+popolazione iniziale è generata casualmente, ovvero ogni lettera di ogni stringa
+è il risultato di un lancio di moneta. Ottengo la seguente popolazione, con
+relativo fitness.
+
+\begin{table}[h!]
+\begin{tabular}{lllll}
+\multicolumn{1}{l|}{n} & Stringa      & Valore $x$ & fitness &  \\ \cline{1-4}
+\multicolumn{1}{l|}{1} & \code{01101} & 13         & 169     &  \\
+\multicolumn{1}{l|}{2} & \code{11000} & 24         & 576     &  \\
+\multicolumn{1}{l|}{3} & \code{01000} & 8          & 64      &  \\
+\multicolumn{1}{l|}{4} & \code{10011} & 19         & 361     &  \\ \cline{1-4}
+\multicolumn{3}{c}{totale}                         & 1170    & 
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Riproduzione}
+
+A questo punto voglio generare una nuova generazione a partire dagli individui
+con fitness maggiore. Per fare ciò ad ogni individuo $i_k$  assegno la
+probabilità di riproduzione 
+$$p_k=\frac{f(k)}{\sum\limits_{j}f(j)}$$
+dove al numeratore compare il fitness di tale individuo e a denominatore la
+somma di tutti i fitness. Risulta chiaro che a maggiore fitness corrisponde
+maggiore probabilità di riproduzione e che la somma di tutti i $p_k$ valga $1$.
+La tabella risulta dunque essere
+
+\begin{table}[h!]
+\begin{tabular}{lllll}
+\multicolumn{1}{l|}{$k$} & Stringa        & Valore $x$ & fitness & $p_k$ \\ \hline
+\multicolumn{1}{l|}{1}   & \code{01101} & 13         & 169     & 0.14  \\
+\multicolumn{1}{l|}{2}   & \code{11000} & 24         & 576     & 0.49  \\
+\multicolumn{1}{l|}{3}   & \code{01000} & 8          & 64      & 0.05  \\
+\multicolumn{1}{l|}{4}   & \code{10011} & 19         & 361     & 0.31  \\ \hline
+\multicolumn{3}{c}{totale}                           & 1170    & 1.00 
+\end{tabular}
+\end{table}
+
+Una volta determinate le probabilità, scelgo casualmente gli individui per la
+nuova popolazione. Ciascuno di essi ha probabilità $p_k$ di essere uguale
+all'individuo $i_k$. Su una popolazione di $N$ individui ci aspettiamo quindi di
+avere $Np_k$ individui uguali a $i_k$.
+Se si definisce il fitness medio 
+$$\overline{f}=\frac{\sum\limits_{j}f(j)}{N}$$
+si ha che 
+$$Np_k=N \frac{f(k)}{\sum\limits_{j}f(j)}=\frac{f(k)}{\overline{f}}$$
+Questo significa che se un certo individuo ha un fitness superiore alla media,
+ovvero $f>\overline{f}$, avrà $f/\overline{f}>1$, cioè tenderà ad aumentare il
+suo numero di copie nella generazione successiva. Analogamente un individuo con
+un fitness inferiore alla media tenderà a diminuire il proprio numero di copie.
+
+Vado dunque a eseguire la riproduzione sulla popolazione in esame, ottenendo i
+seguenti risultati.
+
+\begin{table}[h!]
+\begin{tabular}{lcccccl}
+\multicolumn{1}{l|}{$k$} & \multicolumn{1}{l}{Stringa} & \multicolumn{1}{l}{Valore $x$} & \multicolumn{1}{l}{fitness} & \multicolumn{1}{l}{$p_k$} & \multicolumn{1}{l}{$f/\overline{f}$} & \begin{tabular}[c]{@{}l@{}}numero di individui\\ nella nuova generazione\end{tabular} \\ \hline
+\multicolumn{1}{l|}{1} & \code{01101} & 13 & 169 & 0.14 & 0.58 & \multicolumn{1}{c}{1} \\
+\multicolumn{1}{l|}{2} & \code{11000} & 24 & 576 & 0.49 & 1.96 & \multicolumn{1}{c}{2} \\
+\multicolumn{1}{l|}{3} & \code{01000} & 8 & 64 & 0.05 & 0.21 & \multicolumn{1}{c}{0} \\
+\multicolumn{1}{l|}{4} & \code{10011} & 19 & 361 & 0.31 & 1.23 & \multicolumn{1}{c}{1} \\ \hline
+\multicolumn{3}{c}{totale} & 1170 & 1.00 & 4.00 &  \\
+\multicolumn{3}{c}{media} & 229.5 & 0.25 & 1.00 &  \\
+\multicolumn{3}{c}{massimo} & 576 & 0.49 & 1.96 & 
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Crossover}
+Supponiamo in una certa popolazione di avere individui con stringhe composte da
+un numero $l$ di lettere tratte dal vocabolario $V$. Nel nostro esempio $l=5$.
+Indico con $i_k^j$ la $j$-esima lettera della stringa dell'individuo $i_k$.
+Vediamo cosa succede eseguendo un crossover su due individui $i_1$ e $i_2$.
+Scelgo casualmente un un intero $c$ compreso tra $1$ e $l-1$. Il risultato del
+crossover sono un individuo $i_1'$
+
+\end{document}
