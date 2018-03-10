@@ -218,7 +218,7 @@ dell'insieme $V_+^l$. Proseguendo nell'esempio di prima, è uno schema
 di possibili stringhe, tale che ogni lettera dello schema diversa da \code{*}
 sia uguale a quella corrispondente nella stringa. Dunque allo schema
 \code{10*1*} saranno associate le stringhe \code{10010}, \code{10011},
-\code{10110} e \code{10111}a. Queste stringhe prendono il nome di rappresentanti
+\code{10110} e \code{10111}. Queste stringhe prendono il nome di rappresentanti
 dello schema.
 
 Definisco ora due funzioni che saranno utili in seguito. La prima \`e l'ordine,
@@ -259,12 +259,76 @@ altrimenti. L'equazione precedente diventa dunque
 $$m(h,t+1)=m(h,t)\frac{(1+\lambda )\overline{f}}{\overline{f}}=(1+\lambda
 )m(h,t)$$
 Assumiamo che $\lambda$ non vari significativamente, ovvero consideriamo uno
-schema che rimane sempre ''buono`` oppure sempre ''cattivo``. In tal caso si
+schema che rimane sempre ``buono'' oppure sempre ``cattivo''. In tal caso si
 avr\`a
 $$m(h,t)=(1+\lambda)^tm(h,0)$$
 Ovvero il numero di rappresentanti di uno schema crescer\`a o decrescer\`a con
 regime esponenziale.
 
+
+
+\subsection{Schemi e crossover}
+
+Occupiamoci ora di come il crossover influisca sul numero di rappresentanti di
+un certo schema. Prendiamo come esempio gli schemi
+\begin{align*}
+h_1=\code{*1****0}\\
+h_2=\code{***10**}
+\end{align*}
+di cui l'individuo $i=\code{0111000}$ \`e un rappresentante. Risulta evidente
+che \`e molto pi\`u facile che un crossover distrugga $h_1$ piuttosto che
+$h_2$. Infatti il primo schema viene distrutto dai crossover su $i$ con sito
+$c=2,3,4,5,6$. Per il secondo si pu\`o avere solo per $c=4$. Risulta evidente
+che il numero di crossover ``distruttivi'' \`e $\delta (h)$. Il numero dei
+possibili \`e ovviamente $l-1$ con $l$ lunghezza della stringa. Dunque la
+probabilit\`a che uno schema venga salvato da un crossover \`e
+$$p_\text{s}=1-\frac{\delta (h)}{l-1}$$
+
+Nel caso in cui un crossover distruttivo avvenisse tra due rappresentanti dello
+schema, lo schema rimarrebbe comunque intatto. Ne consegue che quello trovato
+prima \`e solo un limite inferiore. Si ha dunque che il contributo relativo al
+crossover al numero di rappresentanti di $h$ \`e
+$$m(h, t+1)\geq p_\text{s}m(h,t)=m(h,t)\left(1- \frac{\delta (h)}{l-1} \right)$$
+
+
+\subsection{Schemi e mutazione}
+
+Studiamo il comportamento degli schemi con una mutazione con frequenza
+$\varepsilon$, ovvero ogni carattere ha la probailit\`a di modificarsi pari a
+$\varepsilon$. Risulta dunque evidente che la probabilit\`a di uno schema di
+resistere ad una mutazione \`e pari a 
+$$p_\text{r}=\left(1-\varepsilon\right)^{o(h)}$$
+Siccome stiamo trattando valori di $\varepsilon \ll 1$, possiamo sviluppare al
+primo ordine per ottenere
+$$p_\text{r}=1-\varepsilon o(h)$$
+e dunque considerando solo il contributo della mutazione si ottiene
+$$m(h,t+1)=m(h,t)\left(1-\varepsilon o(h)\right)$$
+
+
+\subsection{Teorema degli schemi}
+
+Non rimane che combinare le equazioni per ottenere che
+$$m(h, t+1) \geq m(h,t) \left(1+\lambda \right) \left(1-\frac{\delta
+(h)}{l-1}\right) \left(1- \varepsilon o(h) \right)$$
+Ci\`o significa che schemi corti, con piccola lunghezza caratteristica e con un
+fitness sempre superiore alla media, tenderanno ad aumentare il numero di propri
+rappresentanti con andamento esponenziale. Questo risultato \`e noto come
+teorema degli schemi o teorema fondamentale 
+
+
+\subsection{Importanza della diversit\`a tra individui}
+
+Consideriamo due generazioni consecutive $t$ e $t+1$. Partendo da condizioni
+casuali (come nell'esempio) e procedendo a svolgere le varie operazioni,
+chiamiamo $p(i,t)$ la probabilit\`a di trovare l'individuo $i$ nella
+generazione $t$. Ovviamente su una popolazione di $N$ individui, ci aspettiamo
+$Np(i,t)$ individui uguali a $i$. Per la legge della riproduzione
+$$p(i, t+1) = p(i,t) \frac{f(i)}{\overline{f}(t)}$$
+con $\overline{f}(t)$ fitness medio nella generazione $t$.
+
+Definiamo la varianza come 
+$$V(t) = \sum\limits_j p(i_j, t) \left[f(i)- \overline{f}(t)\right]^2$$
+dove la sommatoria \`e intesa su tutti i possibili individui.
 
 
 \end{document}
