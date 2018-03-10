@@ -2,6 +2,7 @@
 \usepackage[italian]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage{lmodern}
+\usepackage{amsmath}
 
 \font\myfont=cmr12 at 25pt
 \newcommand{\code}{\texttt}
@@ -220,19 +221,49 @@ sia uguale a quella corrispondente nella stringa. Dunque allo schema
 \code{10110} e \code{10111}a. Queste stringhe prendono il nome di rappresentanti
 dello schema.
 
-Definisco ora due funzioni che saranno utili in seguito. La prima \`e l'ordine
-di uno schema, che si denota con $o(h)$ ed \`e il numero di caratteri fissi
-(cio\`e diversi dal carattere jolly) nello schema. Quindi
-$o(\code{110*1**1})=5$. La seconda funzione \`e detta lunghezza caratteristica
-di uno schema ed \`e la distanza tra la prima lettera fissa e l'ultima. Si
-scrive come $\delta(h)$. Per esempio $\delta( \code{10*1**)} = 3$. Infatti il
-primo carattere fisso si trova in posizione $1$ e l'ultimo in posizione $4$.
-Dunque il valore che cerchiamo \`e $4-1=3$.
+Definisco ora due funzioni che saranno utili in seguito. La prima \`e l'ordine,
+che si denota con $o(h)$ ed \`e il numero di caratteri fissi (cio\`e diversi dal
+carattere jolly) nello schema. Quindi $o(\code{110*1**1})=5$. La seconda
+funzione \`e detta lunghezza caratteristica di uno schema ed \`e la distanza tra
+la prima lettera fissa e l'ultima. Si scrive come $\delta(h)$. Per esempio
+$\delta( \code{10*1**)} = 3$. Infatti il primo carattere fisso si trova in
+posizione $1$ e l'ultimo in posizione $4$.  Dunque il valore che cerchiamo \`e
+$4-1=3$.
 
 Inoltre possiamo estendere la funzione di fitness agli schemi. Sia $h$ uno
 schema e $i_1, i_2, \ldots ,i_n$ suoi rappresentanti. allora il fitness medio di
-$h$ vale
-$$f(h)=\frac{\sum\limits_{j=1}^n f(i_j)}{n}$$
+$h$ vale $$f(h)=\frac{\sum\limits_{j=1}^n f(i_j)}{n}$$
+
+
+
+\subsection{Schemi e riproduzione}
+
+Chiamiamo $m(h, t)$ il numero di rappresentanti di uno schema $h$ nella
+generazione $t$. Parlando del fitness medio rispetto ai rappresentanti presenti
+nella popolazione, chiamati $r_1, r_2, \ldots, r_n$ con $n=m(h,t)$, ci
+aspettiamo che il numero di copie di $r_j$ sia 
+$$\frac{f(r_j)}{\overline{f}}$$
+e che dunque
+\begin{align*}
+m(h,t+1) =
+\frac{f(r_1)}{\overline{f}}
++\frac{f(r_2)}{\overline{f}}+ \cdots +
+\frac{f(r_n)}{\overline{f}} =\\
+\frac{\sum\limits_{j=1}^n f(r_j)}{\overline{f}} =
+\frac{n}{\overline{f}} \frac{\sum\limits_{j=1}^n f(r_j)} {n} = n \frac{f(h)}{\overline{f}} = m(h,t)\frac{f(h)}{\overline{f}}
+\end{align*}
+Possiamo scegliere una certa $\lambda$ tale che $f(h)=(1+\lambda
+)\overline{f}$. Tale valore indica quanto il fitness di uno schema si discosta
+dalla media, e sar\`a positivo se $h$ \`e un buono schema e negativo
+altrimenti. L'equazione precedente diventa dunque
+$$m(h,t+1)=m(h,t)\frac{(1+\lambda )\overline{f}}{\overline{f}}=(1+\lambda
+)m(h,t)$$
+Assumiamo che $\lambda$ non vari significativamente, ovvero consideriamo uno
+schema che rimane sempre ''buono`` oppure sempre ''cattivo``. In tal caso si
+avr\`a
+$$m(h,t)=(1+\lambda)^tm(h,0)$$
+Ovvero il numero di rappresentanti di uno schema crescer\`a o decrescer\`a con
+regime esponenziale.
 
 
 
