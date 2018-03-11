@@ -81,7 +81,7 @@ relativo fitness.
 A questo punto voglio generare una nuova generazione a partire dagli individui
 con fitness maggiore. Per fare ciò ad ogni individuo $i_k$  assegno la
 probabilità di riproduzione 
-$$p_k=\frac{f(k)}{\sum\limits_{j}f(j)}$$
+$$p_k=\frac{f(i_k)}{\sum\limits_{j}f(i_j)}$$
 dove al numeratore compare il fitness di tale individuo e a denominatore la
 somma di tutti i fitness. Risulta chiaro che a maggiore fitness corrisponde
 maggiore probabilità di riproduzione e che la somma di tutti i $p_k$ valga $1$.
@@ -103,9 +103,9 @@ nuova popolazione. Ciascuno di essi ha probabilità $p_k$ di essere uguale
 all'individuo $i_k$. Su una popolazione di $N$ individui ci aspettiamo quindi di
 avere $Np_k$ individui uguali a $i_k$.
 Se si definisce il fitness medio 
-$$\overline{f}=\frac{\sum\limits_{j}f(j)}{N}$$
+$$\overline{f}=\frac{\sum\limits_{j}f(i_j)}{N}$$
 si ha che 
-$$Np_k=N \frac{f(k)}{\sum\limits_{j}f(j)}=\frac{f(k)}{\overline{f}}$$
+$$Np_k=N \frac{f(i_k)}{\sum\limits_{j}f(i_j)}=\frac{f(i_k)}{\overline{f}}$$
 Questo significa che se un certo individuo ha un fitness superiore alla media,
 ovvero $f>\overline{f}$, avrà $f/\overline{f}>1$, cioè tenderà ad aumentare il
 suo numero di copie nella generazione successiva. Analogamente un individuo con
@@ -313,7 +313,7 @@ $$m(h, t+1) \geq m(h,t) \left(1+\lambda \right) \left(1-\frac{\delta
 Ci\`o significa che schemi corti, con piccola lunghezza caratteristica e con un
 fitness sempre superiore alla media, tenderanno ad aumentare il numero di propri
 rappresentanti con andamento esponenziale. Questo risultato \`e noto come
-teorema degli schemi o teorema fondamentale 
+teorema degli schemi o teorema fondamentale degli algoritmi genetici.
 
 
 \subsection{Importanza della diversit\`a tra individui}
@@ -324,11 +324,40 @@ chiamiamo $p(i,t)$ la probabilit\`a di trovare l'individuo $i$ nella
 generazione $t$. Ovviamente su una popolazione di $N$ individui, ci aspettiamo
 $Np(i,t)$ individui uguali a $i$. Per la legge della riproduzione
 $$p(i, t+1) = p(i,t) \frac{f(i)}{\overline{f}(t)}$$
-con $\overline{f}(t)$ fitness medio nella generazione $t$.
+con $\overline{f}(t)$ fitness medio nella generazione $t$. Inoltre possiamo
+risrivere il fitness medio di una popolazione nei termini dei $p(i_j,t)$. Si ha
+infatti
+$$\overline{f}(t)=\sum\limits_j p(i_j)f(i_j)$$
+
+
+Dimostriamo per induzione che $\sum_j p(i_j, t)=1$. Ovviamente il caso base \`e
+facile e si ha 
+$$p(i_j,0)=\frac{1}{|V|^l}$$
+e siccome i possibili $i_j$ sono in tutto $|V|^l$ la somma vale $1$.
+Supponiamo allora che la somma valga $1$ per una certa generazione $t$. Allora
+$$\sum\limits_j p(i_j,t+1) = 
+\sum\limits_j p(i_j)\frac{f(i_j}{\overline{f}(t)} = 
+\frac{\sum\limits_j p(i_j)f(i_j)}{\overline{f}(t)}=
+\frac{\overline{f}(t)}{\overline{f}(t)}=1$$
 
 Definiamo la varianza come 
-$$V(t) = \sum\limits_j p(i_j, t) \left[f(i)- \overline{f}(t)\right]^2$$
-dove la sommatoria \`e intesa su tutti i possibili individui.
+$$\sigma^2(t) = \sum\limits_j p(i_j, t) \left[f(i_j)- \overline{f}(t)\right]^2$$
+dove la sommatoria \`e intesa su tutti i possibili individui. Tanto maggiore \`e
+la varianza tanto \`e maggiore la diversit\`a tra gli individui nella
+popolazione. Si ha che 
+\begin{align*}
+\sigma^2(t)=
+    \sum\limits_j p(i_j,t)\left[f^2(i_j) +
+    \overline{f}^2(t)-2f(i_j)\overline{f}(t)\right]=\\
+\end{align*}
+
+
+Definiamo inoltre la risposta alla riproduzione
+$$R(t) = \overline{f}(t+1)-\overline{f}(t)$$
+che indica di quanto la riproduzione riesca a far crescere il fitness medio.
+Dunque
+$$R(t)=
+\sum\limits_j$$
 
 
 \end{document}
