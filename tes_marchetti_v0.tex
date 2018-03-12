@@ -209,7 +209,7 @@ processo si fa uso della nozione di schema.
 
 \subsection{Schemi}
 
-Consideriamo sempre una poplazione di $N$ individui caratterizati da stringhe di
+Consideriamo sempre una poplazione di $N$ individui caratterizzati da stringhe di
 lunghezza $l$ composte da lettere del vocabolario $V$. Scelgo un carattere
 jolly, che sarà identificato dal simbolo \code{*}. A questo si può costruire un
 vocabolario esteso $V_+=V \cup \{\code{*}\}$. Uno schema $h$ è un elemento
@@ -313,10 +313,12 @@ $$m(h, t+1) \geq m(h,t) \left(1+\lambda \right) \left(1-\frac{\delta
 Ci\`o significa che schemi corti, con piccola lunghezza caratteristica e con un
 fitness sempre superiore alla media, tenderanno ad aumentare il numero di propri
 rappresentanti con andamento esponenziale. Questo risultato \`e noto come
-teorema degli schemi o teorema fondamentale degli algoritmi genetici.
+teorema degli schemi o teorema fondamentale degli algoritmi genetici. Infatti la
+vera potenza dei GA sta nel riuscire a processare parallelamente un grande numero
+di schemi.
 
 
-\subsection{Importanza della diversit\`a tra individui}
+\section{Importanza della diversit\`a tra individui}
 
 Consideriamo due generazioni consecutive $t$ e $t+1$. Partendo da condizioni
 casuali (come nell'esempio) e procedendo a svolgere le varie operazioni,
@@ -336,7 +338,7 @@ $$p(i_j,0)=\frac{1}{|V|^l}$$
 e siccome i possibili $i_j$ sono in tutto $|V|^l$ la somma vale $1$.
 Supponiamo allora che la somma valga $1$ per una certa generazione $t$. Allora
 $$\sum\limits_j p(i_j,t+1) = 
-\sum\limits_j p(i_j)\frac{f(i_j}{\overline{f}(t)} = 
+\sum\limits_j p(i_j)\frac{f(i_j)}{\overline{f}(t)} = 
 \frac{\sum\limits_j p(i_j)f(i_j)}{\overline{f}(t)}=
 \frac{\overline{f}(t)}{\overline{f}(t)}=1$$
 
@@ -347,17 +349,30 @@ la varianza tanto \`e maggiore la diversit\`a tra gli individui nella
 popolazione. Si ha che 
 \begin{align*}
 \sigma^2(t)=
-    \sum\limits_j p(i_j,t)\left[f^2(i_j) +
-    \overline{f}^2(t)-2f(i_j)\overline{f}(t)\right]=\\
+    &\sum\limits_j p(i_j,t)\left[f^2(i_j) - 2f(i_j)\overline{f}
+    (t)+\overline{f}^2(t)\right]=\\
+    &\cdots\\
+    &\code{...Passaggi algebrici...}\\
+    &\cdots\\
+    &\sum\limits_j p(i_j,t)\left[f^2(i_j)-f(i_j)\overline{f}(t)\right]
 \end{align*}
-
 
 Definiamo inoltre la risposta alla riproduzione
 $$R(t) = \overline{f}(t+1)-\overline{f}(t)$$
 che indica di quanto la riproduzione riesca a far crescere il fitness medio.
 Dunque
-$$R(t)=
-\sum\limits_j$$
+\begin{align*}
+R(t)=\sum\limits_j \left[p(i_j,t+1)-p(i_j,t)\right]f(i_j)=\\
+    \code{passggi algebrici}\\
+    =\frac{1}{\overline{f}(t)} \sum\limits_j p(i_j,t)
+    \left[f^2(i_j)-f^2(i_j)\overline{f}(t)\right]=\\
+    \frac{\sigma^2(t)}{\overline{f}(t)}
+\end{align*}
+
+Ne consegue che si ha un aumento maggiore nel fitness di una popolazione quando
+la varianza \`e grande, e cio\`e quando gli individui sono diversi tra di loro.
+A questo fine sono infatti volte le operazioni di crossover e mutazione.
+
 
 
 \end{document}
