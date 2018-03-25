@@ -1,0 +1,378 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[italian]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+
+\font\myfont=cmr12 at 25pt
+\newcommand{\code}{\texttt}
+
+\title{\myfont Algoritmi genetici - Matematica}
+\author{Alessio Marchetti}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Introduzione}
+
+Gli algoritmi genetici (GA) sono algoritmi di ricerca basati sulle meccaniche
+della selezione naturale e della genetica. Essi si basano sulla manipolazione di
+una popolazione di individui, ciascuno identificato da una propria stringa, che
+ne definisce il comportamento. Tale stringa può essere assimilata al DNA. Sulla
+popolazione vengono essenzialmente eseguiti tre tipi di azioni:
+\begin{enumerate}
+    \item
+    \textit{riproduzione}: Da una generazione (ovvero una popolazione in un
+        certo istante) si selezionano gli individui più adatti alla
+        sopravvivenza e si portano alla generazione successiva.
+    \item
+    \textit{crossover}: Gli individui di una popolazione scambiano fra di loro
+        porzioni di DNA.
+    \item
+    \textit{mutazione}: Sezioni di DNA variano casualmente, con una frequenza
+        fissata generalmente molto bassa.
+\end{enumerate}
+
+
+
+\section{Simulazione ``a mano''}
+
+Per avere un'idea del funzionamento di un GA mostro un esempio di funzionamento
+molto semplice e di cui è ben nota una soluzione. Si tratta di trovare il
+massimo e il punto di massimo della funzione $f(x)=x^2$ nell'intervallo
+$[0,31]$.
+
+Come prima cosa è necessario definire un vocabolario che andrà a comporre le
+stringhe del DNA. Lo faccio nella maniera più semplice possibile, ovvero
+$$V=\{0,1\}$$
+
+Inoltre definisco un individuo come un elemento dell'insieme $V^5$. Per esempio
+è un individuo \code{01001}. Ogni individuo codifica un certo valore di $x$, che
+per comodità scelgo essere la sua rappresentazione in base decimale. Il valore
+corrispondente a quello scelto in precedenza sarà dunque $9$.
+
+Per l'implementazione di un GA è inoltre necessaria una funzione detta di
+\textit{fitness}, tale che, dato un individuo, ne indichi la sua idoneità.
+Nell'esempio preso in esame è spontaneo scegliere $f$ stessa. Quindi
+\code{01001}  ha un fitness di $f(9)=9^2=81$.
+
+In questo esempio scelgo di avere una popolazione composta da $N=4$ individui. In
+genere questo numero è molto più grande per avere un algoritmo efficiente. La
+popolazione iniziale è generata casualmente, ovvero ogni lettera di ogni stringa
+è il risultato di un lancio di moneta. Ottengo la seguente popolazione, con
+relativo fitness.
+
+\begin{table}[h!]
+\begin{tabular}{lllll}
+\multicolumn{1}{l|}{k} & Stringa      & Valore $x$ & fitness &  \\ \cline{1-4}
+\multicolumn{1}{l|}{1} & \code{01101} & 13         & 169     &  \\
+\multicolumn{1}{l|}{2} & \code{11000} & 24         & 576     &  \\
+\multicolumn{1}{l|}{3} & \code{01000} & 8          & 64      &  \\
+\multicolumn{1}{l|}{4} & \code{10011} & 19         & 361     &  \\ \cline{1-4}
+\multicolumn{3}{c}{totale}                         & 1170    & 
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Riproduzione}
+
+A questo punto voglio generare una nuova generazione a partire dagli individui
+con fitness maggiore. Per fare ciò ad ogni individuo $i_k$  assegno la
+probabilità di riproduzione 
+$$p_k=\frac{f(i_k)}{\sum\limits_{j}f(i_j)}$$
+dove al numeratore compare il fitness di tale individuo e a denominatore la
+somma di tutti i fitness. Risulta chiaro che a maggiore fitness corrisponde
+maggiore probabilità di riproduzione e che la somma di tutti i $p_k$ valga $1$.
+La tabella risulta dunque essere
+
+\begin{table}[h!]
+\begin{tabular}{lllll}
+\multicolumn{1}{l|}{$k$} & Stringa        & Valore $x$ & fitness & $p_k$ \\ \hline
+\multicolumn{1}{l|}{1}   & \code{01101} & 13         & 169     & 0.14  \\
+\multicolumn{1}{l|}{2}   & \code{11000} & 24         & 576     & 0.49  \\
+\multicolumn{1}{l|}{3}   & \code{01000} & 8          & 64      & 0.05  \\
+\multicolumn{1}{l|}{4}   & \code{10011} & 19         & 361     & 0.31  \\ \hline
+\multicolumn{3}{c}{totale}                           & 1170    & 1.00 
+\end{tabular}
+\end{table}
+
+Una volta determinate le probabilità, scelgo casualmente gli individui per la
+nuova popolazione. Ciascuno di essi ha probabilità $p_k$ di essere uguale
+all'individuo $i_k$. Su una popolazione di $N$ individui ci aspettiamo quindi di
+avere $Np_k$ individui uguali a $i_k$.
+Se si definisce il fitness medio 
+$$\overline{f}=\frac{\sum\limits_{j}f(i_j)}{N}$$
+si ha che 
+$$Np_k=N \frac{f(i_k)}{\sum\limits_{j}f(i_j)}=\frac{f(i_k)}{\overline{f}}$$
+Questo significa che se un certo individuo ha un fitness superiore alla media,
+ovvero $f>\overline{f}$, avrà $f/\overline{f}>1$, cioè tenderà ad aumentare il
+suo numero di copie nella generazione successiva. Analogamente un individuo con
+un fitness inferiore alla media tenderà a diminuire il proprio numero di copie.
+
+Vado dunque a eseguire la riproduzione sulla popolazione in esame, ottenendo i
+seguenti risultati.
+
+\begin{table}[h!]
+\begin{tabular}{lcccccl}
+\multicolumn{1}{l|}{$k$} & \multicolumn{1}{l}{Stringa} & \multicolumn{1}{l}{Valore $x$} & \multicolumn{1}{l}{fitness} & \multicolumn{1}{l}{$p_k$} & \multicolumn{1}{l}{$f/\overline{f}$} & \begin{tabular}[c]{@{}l@{}}numero di individui\\ nella nuova generazione\end{tabular} \\ \hline
+\multicolumn{1}{l|}{1} & \code{01101} & 13 & 169 & 0.14 & 0.58 & \multicolumn{1}{c}{1} \\
+\multicolumn{1}{l|}{2} & \code{11000} & 24 & 576 & 0.49 & 1.96 & \multicolumn{1}{c}{2} \\
+\multicolumn{1}{l|}{3} & \code{01000} & 8 & 64 & 0.05 & 0.21 & \multicolumn{1}{c}{0} \\
+\multicolumn{1}{l|}{4} & \code{10011} & 19 & 361 & 0.31 & 1.23 & \multicolumn{1}{c}{1} \\ \hline
+\multicolumn{3}{c}{totale} & 1170 & 1.00 & 4.00 &  \\
+\multicolumn{3}{c}{media} & 229.5 & 0.25 & 1.00 &  \\
+\multicolumn{3}{c}{massimo} & 576 & 0.49 & 1.96 & 
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Crossover}
+
+Supponiamo in una certa popolazione di avere individui con stringhe composte da
+un numero $l$ di lettere tratte dal vocabolario $V$. Nel nostro esempio $l=5$.
+Indico con $i_k^j$ la $j$-esima lettera della stringa dell'individuo $i_k$.
+Vediamo cosa succede eseguendo un crossover su due individui $i_1$ e $i_2$.
+Scelgo casualmente un un intero $c$ compreso tra $1$ e $l-1$ detto sito di
+crossover. Il risultato del crossover è un individuo $i_1'$ tale che
+$i_1'^n=i_1^n$ se $n\leq c$ e $i_1'^n=i_2^n$ altrimenti. Allo stesso modo viene
+prodotto un individuo $i_2'$ tale che $i_1'^n=i_2^n$ se $n\leq c$ e
+$i_1'^n=i_1^n$ altrimenti. In altri termini da un certo punto in poi le due
+stringhe si scambiano tra di loro. Per eseguire un crossover su un'intera
+popolazione, si devono accoppiare casualmente gli individui, e poi eseguire il
+crossover su ciascuna coppia. 
+
+Partiamo dalla popolazione derivante dalla riproduzione e accoppiamo casualmente
+gli individui. Scegliamo inoltre casualmente il sito di crossover.
+\begin{table}[h!]
+\begin{tabular}{l|ccc}
+$k$ & Stringa & Compagno & Sito di crossover \\ \hline
+1 & \code{01101} & 2 & 4 \\
+2 & \code{11000} & 1 & 4 \\
+3 & \code{11000} & 4 & 2 \\
+4 & \code{10011} & 3 & 2
+\end{tabular}
+\end{table}
+
+Andiamo a studiare la prima coppia. La prima stringa si spezza come
+\code{0110-1}, mentre la seconda come \code{1100-0}. Si otterranno dunque i
+nuovi individui \code{01100} e \code{11001}. Si procede in modo analogo sulla
+seconda coppia per ottenere \code{11011} e \code{10000}.
+
+
+
+\subsection{Mutazione}
+
+Durante la mutazione ciascuna lettera di ogni stringa ha un probabilità di
+$\varepsilon=0.001$ di diventare un'altra lettera del vocabolario. In questo
+caso ci aspettiamo $Nl \varepsilon=4\cdot 5 \cdot 0.001= 0.02$ mutazioni. Di
+fatto simulando non ne troviamo alcuna. 
+
+
+
+\subsection{Analisi dei risultati}
+
+Andiamo infine ad analizzare quali sono stati i risultati delle tre operazioni.
+Nella tabella seguente sono presenti alcuni dati sulla seconda generazione
+comparati con la prima.
+\begin{table}[h!]
+\begin{tabular}{cccc|c}
+\multicolumn{1}{c|}{$k$} & Stringa & Valore $x$ & fitness gen. 2 & fitness gen. 1 \\ \hline
+\multicolumn{1}{c|}{1} & \code{01100} & 12 & 144 & 169 \\
+\multicolumn{1}{c|}{2} & \code{11001} & 25 & 625 & 576 \\
+\multicolumn{1}{c|}{3} & \code{11011} & 27 & 729 & 64 \\
+\multicolumn{1}{c|}{4} & \code{10000} & 16 & 256 & 361 \\ \hline
+\multicolumn{3}{c}{media} & 438.5 & 229.5 \\
+\multicolumn{3}{c}{massimo} & 625 & 576
+\end{tabular}
+\end{table}
+
+Risulta dunque evidente che si ha avuto un incremento del fitness sia nel valore
+massimo che nel valore medio.
+
+
+
+
+\section{Fondamenti matematici}
+
+Una grossa domanda che è necessario porsi per comprendere il perché del
+funzionamento dei GA è la seguente: quali informazioni porta una certa
+popolazione? Ovviamente una risposta è data dagli individui stessi, il cui
+fitness cresce con l'avanzare delle generazioni. Un secondo punto di vista si
+può trovare considerando le similitudini tra le stringhe della popolazione. In
+altre parole il miglioramento generale della popolazione tra una generazione e
+l'altra è parallelo all'accentuarsi di alcune similitudini. Per studiare questo
+processo si fa uso della nozione di schema.
+
+
+\subsection{Schemi}
+
+Consideriamo sempre una poplazione di $N$ individui caratterizzati da stringhe di
+lunghezza $l$ composte da lettere del vocabolario $V$. Scelgo un carattere
+jolly, che sarà identificato dal simbolo \code{*}. A questo si può costruire un
+vocabolario esteso $V_+=V \cup \{\code{*}\}$. Uno schema $h$ è un elemento
+dell'insieme $V_+^l$. Proseguendo nell'esempio di prima, è uno schema
+\code{10*1*}. Si può stabilire una corrispondenza tra uno schema e un insieme
+di possibili stringhe, tale che ogni lettera dello schema diversa da \code{*}
+sia uguale a quella corrispondente nella stringa. Dunque allo schema
+\code{10*1*} saranno associate le stringhe \code{10010}, \code{10011},
+\code{10110} e \code{10111}. Queste stringhe prendono il nome di rappresentanti
+dello schema.
+
+Definisco ora due funzioni che saranno utili in seguito. La prima \`e l'ordine,
+che si denota con $o(h)$ ed \`e il numero di caratteri fissi (cio\`e diversi dal
+carattere jolly) nello schema. Quindi $o(\code{110*1**1})=5$. La seconda
+funzione \`e detta lunghezza caratteristica di uno schema ed \`e la distanza tra
+la prima lettera fissa e l'ultima. Si scrive come $\delta(h)$. Per esempio
+$\delta( \code{10*1**)} = 3$. Infatti il primo carattere fisso si trova in
+posizione $1$ e l'ultimo in posizione $4$.  Dunque il valore che cerchiamo \`e
+$4-1=3$.
+
+Inoltre possiamo estendere la funzione di fitness agli schemi. Sia $h$ uno
+schema e $i_1, i_2, \ldots ,i_n$ suoi rappresentanti. allora il fitness medio di
+$h$ vale $$f(h)=\frac{\sum\limits_{j=1}^n f(i_j)}{n}$$
+
+
+
+\subsection{Schemi e riproduzione}
+
+Chiamiamo $m(h, t)$ il numero di rappresentanti di uno schema $h$ nella
+generazione $t$. Parlando del fitness medio rispetto ai rappresentanti presenti
+nella popolazione, chiamati $r_1, r_2, \ldots, r_n$ con $n=m(h,t)$, ci
+aspettiamo che il numero di copie di $r_j$ sia 
+$$\frac{f(r_j)}{\overline{f}}$$
+e che dunque
+\begin{align*}
+m(h,t+1) =
+\frac{f(r_1)}{\overline{f}}
++\frac{f(r_2)}{\overline{f}}+ \cdots +
+\frac{f(r_n)}{\overline{f}} =\\
+\frac{\sum\limits_{j=1}^n f(r_j)}{\overline{f}} =
+\frac{n}{\overline{f}} \frac{\sum\limits_{j=1}^n f(r_j)} {n} = n \frac{f(h)}{\overline{f}} = m(h,t)\frac{f(h)}{\overline{f}}
+\end{align*}
+Possiamo scegliere una certa $\lambda$ tale che $f(h)=(1+\lambda
+)\overline{f}$. Tale valore indica quanto il fitness di uno schema si discosta
+dalla media, e sar\`a positivo se $h$ \`e un buono schema e negativo
+altrimenti. L'equazione precedente diventa dunque
+$$m(h,t+1)=m(h,t)\frac{(1+\lambda )\overline{f}}{\overline{f}}=(1+\lambda
+)m(h,t)$$
+Assumiamo che $\lambda$ non vari significativamente, ovvero consideriamo uno
+schema che rimane sempre ``buono'' oppure sempre ``cattivo''. In tal caso si
+avr\`a
+$$m(h,t)=(1+\lambda)^tm(h,0)$$
+Ovvero il numero di rappresentanti di uno schema crescer\`a o decrescer\`a con
+regime esponenziale.
+
+
+
+\subsection{Schemi e crossover}
+
+Occupiamoci ora di come il crossover influisca sul numero di rappresentanti di
+un certo schema. Prendiamo come esempio gli schemi
+\begin{align*}
+h_1=\code{*1****0}\\
+h_2=\code{***10**}
+\end{align*}
+di cui l'individuo $i=\code{0111000}$ \`e un rappresentante. Risulta evidente
+che \`e molto pi\`u facile che un crossover distrugga $h_1$ piuttosto che
+$h_2$. Infatti il primo schema viene distrutto dai crossover su $i$ con sito
+$c=2,3,4,5,6$. Per il secondo si pu\`o avere solo per $c=4$. Risulta evidente
+che il numero di crossover ``distruttivi'' \`e $\delta (h)$. Il numero dei
+possibili \`e ovviamente $l-1$ con $l$ lunghezza della stringa. Dunque la
+probabilit\`a che uno schema venga salvato da un crossover \`e
+$$p_\text{s}=1-\frac{\delta (h)}{l-1}$$
+
+Nel caso in cui un crossover distruttivo avvenisse tra due rappresentanti dello
+schema, lo schema rimarrebbe comunque intatto. Ne consegue che quello trovato
+prima \`e solo un limite inferiore. Si ha dunque che il contributo relativo al
+crossover al numero di rappresentanti di $h$ \`e
+$$m(h, t+1)\geq p_\text{s}m(h,t)=m(h,t)\left(1- \frac{\delta (h)}{l-1} \right)$$
+
+
+\subsection{Schemi e mutazione}
+
+Studiamo il comportamento degli schemi con una mutazione con frequenza
+$\varepsilon$, ovvero ogni carattere ha la probailit\`a di modificarsi pari a
+$\varepsilon$. Risulta dunque evidente che la probabilit\`a di uno schema di
+resistere ad una mutazione \`e pari a 
+$$p_\text{r}=\left(1-\varepsilon\right)^{o(h)}$$
+Siccome stiamo trattando valori di $\varepsilon \ll 1$, possiamo sviluppare al
+primo ordine per ottenere
+$$p_\text{r}=1-\varepsilon o(h)$$
+e dunque considerando solo il contributo della mutazione si ottiene
+$$m(h,t+1)=m(h,t)\left(1-\varepsilon o(h)\right)$$
+
+
+\subsection{Teorema degli schemi}
+
+Non rimane che combinare le equazioni per ottenere che
+$$m(h, t+1) \geq m(h,t) \left(1+\lambda \right) \left(1-\frac{\delta
+(h)}{l-1}\right) \left(1- \varepsilon o(h) \right)$$
+Ci\`o significa che schemi corti, con piccola lunghezza caratteristica e con un
+fitness sempre superiore alla media, tenderanno ad aumentare il numero di propri
+rappresentanti con andamento esponenziale. Questo risultato \`e noto come
+teorema degli schemi o teorema fondamentale degli algoritmi genetici. Infatti la
+vera potenza dei GA sta nel riuscire a processare parallelamente un grande numero
+di schemi.
+
+
+\section{Importanza della diversit\`a tra individui}
+
+Consideriamo due generazioni consecutive $t$ e $t+1$. Partendo da condizioni
+casuali (come nell'esempio) e procedendo a svolgere le varie operazioni,
+chiamiamo $p(i,t)$ la probabilit\`a di trovare l'individuo $i$ nella
+generazione $t$. Ovviamente su una popolazione di $N$ individui, ci aspettiamo
+$Np(i,t)$ individui uguali a $i$. Per la legge della riproduzione
+$$p(i, t+1) = p(i,t) \frac{f(i)}{\overline{f}(t)}$$
+con $\overline{f}(t)$ fitness medio nella generazione $t$. Inoltre possiamo
+risrivere il fitness medio di una popolazione nei termini dei $p(i_j,t)$. Si ha
+infatti
+$$\overline{f}(t)=\sum\limits_j p(i_j)f(i_j)$$
+
+
+Dimostriamo per induzione che $\sum_j p(i_j, t)=1$. Ovviamente il caso base \`e
+facile e si ha 
+$$p(i_j,0)=\frac{1}{|V|^l}$$
+e siccome i possibili $i_j$ sono in tutto $|V|^l$ la somma vale $1$.
+Supponiamo allora che la somma valga $1$ per una certa generazione $t$. Allora
+$$\sum\limits_j p(i_j,t+1) = 
+\sum\limits_j p(i_j)\frac{f(i_j)}{\overline{f}(t)} = 
+\frac{\sum\limits_j p(i_j)f(i_j)}{\overline{f}(t)}=
+\frac{\overline{f}(t)}{\overline{f}(t)}=1$$
+
+Definiamo la varianza come 
+$$\sigma^2(t) = \sum\limits_j p(i_j, t) \left[f(i_j)- \overline{f}(t)\right]^2$$
+dove la sommatoria \`e intesa su tutti i possibili individui. Tanto maggiore \`e
+la varianza tanto \`e maggiore la diversit\`a tra gli individui nella
+popolazione. Si ha che 
+\begin{align*}
+\sigma^2(t)=
+    &\sum\limits_j p(i_j,t)\left[f^2(i_j) - 2f(i_j)\overline{f}
+    (t)+\overline{f}^2(t)\right]=\\
+    &\cdots\\
+    &\code{...Passaggi algebrici...}\\
+    &\cdots\\
+    &\sum\limits_j p(i_j,t)\left[f^2(i_j)-f(i_j)\overline{f}(t)\right]
+\end{align*}
+
+Definiamo inoltre la risposta alla riproduzione
+$$R(t) = \overline{f}(t+1)-\overline{f}(t)$$
+che indica di quanto la riproduzione riesca a far crescere il fitness medio.
+Dunque
+\begin{align*}
+R(t)=\sum\limits_j \left[p(i_j,t+1)-p(i_j,t)\right]f(i_j)=\\
+    \code{passggi algebrici}\\
+    =\frac{1}{\overline{f}(t)} \sum\limits_j p(i_j,t)
+    \left[f^2(i_j)-f^2(i_j)\overline{f}(t)\right]=\\
+    \frac{\sigma^2(t)}{\overline{f}(t)}
+\end{align*}
+
+Ne consegue che si ha un aumento maggiore nel fitness di una popolazione quando
+la varianza \`e grande, e cio\`e quando gli individui sono diversi tra di loro.
+A questo fine sono infatti volte le operazioni di crossover e mutazione.
+
+
+
+\end{document}
