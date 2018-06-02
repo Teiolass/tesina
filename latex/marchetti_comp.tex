@@ -1,4 +1,4 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 11pt, onecolumn]{article}
 \usepackage[italian]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage{lmodern}
@@ -25,13 +25,13 @@
 \begin{document}
 \maketitle
 
-\textit{\small \textbf{Nota:} Le note a margine indicano quando cambiare la slide.
-Tuttavia alcune slides sono frammentate in pi\`u fasi, e necessitano di andare
-avanti anche se non specificato. \vspace{7mm}}
+\textit{\small \textbf{Nota:} Le note a margine indicano quando cambiare la
+slide. Tuttavia alcune slides sono frammentate in pi\`u fasi, e necessitano di
+andare avanti anche se non specificato. \vspace{7mm}}
 
 L'argomento della mia tesina \`e uno studio del funzionamento degli algoritmi
 genetici. Gli algoritmi genetici sono innanzi tutto algoritmi, ovvero un insieme
-di istruzioni utli a risolvere determinate classi di problemi. \slide
+di istruzioni utili a risolvere determinate classi di problemi. \slide
 L'aggettivo ``genetici'' viene attribuito in quanto i processi che studieremo
 attuano meccaniche ispirate ai meccanismi della natura, in particolare quelli
 della genetica e della selezione naturale.
@@ -53,16 +53,16 @@ compito \`e quello di cercarne il punto pi\`u alto. La funzione che ho scelto
 \`e molto semplice \slide ed \`e una parabola. In questo caso, il massimo si
 trova all'estremo. Vediamo come opera un algoritmo genetico.
 
-Innanzi tutto occorre trovare un modo efficace di descrivere una soluzione
-\slide. A tal fine definisco ci\`o che potrebbe essere l'analogo di un DNA, che
-andr\`a a identificare ogni individuo della popolazione di soluzioni. Dunque ho
-bisogno di un insieme (chiamato vocabolario) di basi azotate. Nel mio esempio lo
-scelgo nel modo pi\`u semplice (e naturale) possibile, ovvero composto da due
-elementi: zero e uno. Un DNA consiste in una stringa di cinque elementi. \`E
-anche necessaria una codifica dal genotipo al fenotipo, ovvero da ci\`o che il
-DNA indica e quale caratteristica effettivamente esprime un certo individuo.
-Nella pratica la stringa di zeri e uno verr\`a letta in codice binario e
-interpretata come posizione sull'asse delle ascisse.
+Innanzi tutto occorre trovare un modo efficace di descrivere una
+soluzione\slide. A tal fine definisco ci\`o che potrebbe essere l'analogo di un
+DNA, che andr\`a a identificare ogni individuo della popolazione di soluzioni.
+Dunque ho bisogno di un insieme (chiamato vocabolario) di basi azotate. Nel mio
+esempio lo scelgo nel modo pi\`u semplice (e naturale) possibile, ovvero
+composto da due elementi: zero e uno. Un DNA consiste in una stringa di cinque
+elementi. \`E anche necessaria una codifica dal genotipo al fenotipo, ovvero da
+ci\`o che il DNA indica e quale caratteristica effettivamente esprime un certo
+individuo. Nella pratica la stringa di zeri e uno verr\`a letta in codice
+binario e interpretata come posizione sull'asse delle ascisse.
 
 La popolazione iniziale viene generata in modo totalmente casuale. \slide Ci\`o
 significa che ogni possibile DNA ha la stessa probabilit\`a di essere
@@ -71,7 +71,7 @@ un lancio di una moneta: zero se esce testa e uno se esce croce. Nell'esempio ho
 scelto una popolazione molto piccola per poterci lavorare comodamente a mano.
 Questi \slide sono i risultati ottenuti.
 
-Giunti a questo punto \`e necessario scelgliere gli individui migliori \slide.
+Giunti a questo punto \`e necessario scegliere gli individui migliori \slide.
 Ovvero serve trovare un modo per identificare quali DNA sono i pi\`u adatti a
 risolvere il problema. Per questo motivo definisco una funzione, detta di
 fitness, che valuta ogni individuo. Nel nostro esempio pi\`u \`e alta l'immagine
@@ -79,8 +79,8 @@ di un certo punto, pi\`u il candidato risulta buono, dunque prendere come
 funzione di fitness $f(x)$ stessa, \`e una scelta sensata. La tabella di prima
 aggiornata risulta dunque essere la seguente\slide.
 
-Adesso si ha tutto l'occorrente per costruire una nuova generazione\slide. Essa deve
-avere come caratteristiche innanzi tutto quella di essere mediamente migliore
+Adesso si ha tutto l'occorrente per costruire una nuova generazione\slide. Essa
+deve avere come proprit\`a innanzi tutto quella di essere mediamente migliore
 della precedenti. In secondo luogo deve avere caratteristiche in comune con
 essa. La prima fase del passaggio di generazione \`e quello di eliminare gli
 individui peggiori. A tal fine definisco la probabilit\`a di sopravvivenza in
@@ -90,15 +90,33 @@ assumeranno i valori che si vedono nella tabella\slide. Risulta immediato
 verificare che a moggiore fitness si associa una maggiore probabilit\`a di
 sopravvivenza.
 
-Per scegliere i discendenti si costruisce una popolazione con un numero di
- individui uguale al precedente, tale che ogni genitore ha una probabilit\`a
- pari alla  propria probabilit\`a di sopravvivenza di avere una copia identica
- di s\`e nella generazione successiva. \slide In altre parole si ha il seguente
- processo: si ha  una ruota simile a quella di una lotteria. Ogni individuo ha
- uno spazio sulla  ruota proporzionale alla propria probabilit\ `a di
- sopravvivenza (e quindi al proprio fitness). Si procede a far girare la ruota
- una volta per ogni individuo della nuova popolazione,  che risulter\`a uguale a
- quello uscito dalla ruota.
+A cosa servono? Come passaggio intermedio per arrivare alla generazione
+successiva costruisco il cosiddetto \textit{mating pool}\slide, piscina di
+accoppiamento. Esso  conterr\`a lo stesso numero di individui della popolazione
+originale, e ogni  individuo avr\`a una probabilit\`a pari alla sua
+probabilit\`a di sopravvivenza di entrare nel mating pool. In pratica cosa
+succede? Per scegliere ogni individuo del mating pool, faccio girare una ruota
+simile a quella di una lotteria\slide. Ogni tacca rappresenta  un individuo
+della popolazione iniziale. Quindi l'individuo scelto sar\`a esattamente uguale
+a quello indicato dalla ruota. Si noti che con questo metodo nel mating pool
+potrebbe esserci pi\`u di una copia di uno stesso individuo. Per questo motivo
+si rendono necessari i prossimi passaggi di crossing over e di mutazione.\slide
+
+Infatti se non ci fosse n\`e una ricombinazione, n\`e una modificazione dei DNA,
+l'algoritmo si limiterebbe a scegliere la migliore soluzione tra quelle
+iniziali, che ricordo essere generate casualmente. Serve allora implementare dei
+meccanismi che costruiscano soluzioni nuove.
+
+\slide Il primo di questi meccanismi \`e detto, in analogia con ci\`o che avviene
+durante la meiosi, crossing over. Nel mating pool, gli individui vengono accoppiati,
+e ad ogni coppia succede essenzialmente quello che \`e mostrato in figura: i DNA
+si scambiano casualmente alcune sezioni.
+
+\slide Il secondo meccanismo \`e invece detto mutazione. Alcuni
+
+
+
+
 
 
 
