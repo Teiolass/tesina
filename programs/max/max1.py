@@ -50,7 +50,7 @@ def kill_bad(pop, kids):
     fitness = get_fitness(F(pop['DNA']))            # calculate global fitness
     idx = np.arange(pop['DNA'].shape[0])
     good_idx = idx[fitness.argsort()][-POP_SIZE:]   # selected by fitness ranking (not value)
-    y1.append(fitness[0])
+    # y1.append(fitness[0])
     for key in ['DNA', 'mut_strength']:
         pop[key] = pop[key][good_idx]
     return pop
@@ -60,29 +60,29 @@ pop = dict(DNA=5 * np.random.rand(1, DNA_SIZE).repeat(POP_SIZE, axis=0),   # ini
            mut_strength=np.random.rand(POP_SIZE, DNA_SIZE))                # initialize the pop mutation strength values
 
 plt.ion()       # something about plotting
-plt.subplot(211)
+# plt.subplot(211)
 x = np.linspace(*DNA_BOUND, 200)
-plt.plot(x, F(x))
+plt.plot(x, F(x), c='black')
 
-x1 = np.arange(N_GENERATIONS)
-y1 = []
+# x1 = np.arange(N_GENERATIONS)
+# y1 = []
 
-plt.subplot(212)
-axes = plt.gca()
-axes.set_xlim(0,N_GENERATIONS)
-plt.subplot(211)
+# plt.subplot(212)
+# axes = plt.gca()
+# axes.set_xlim(0,N_GENERATIONS)
+# plt.subplot(211)
 
 for i in range(N_GENERATIONS):
     # something about plotting
     if 'sca' in globals(): sca.remove()
-    sca = plt.scatter(pop['DNA'], F(pop['DNA']), s=200, lw=0, c='red', alpha=0.5); plt.pause(0.05)
+    sca = plt.scatter(pop['DNA'], F(pop['DNA']), s=200, lw=0, c='green', alpha=0.2); plt.pause(0.05)
 
     # ES part
     kids = make_kid(pop, N_KID)
     pop = kill_bad(pop, kids)   # keep some good parent for elitism
 
-    plt.subplot(212)
-    plt.plot(x1[:i+1],y1, color='red')
-    plt.subplot(211)
+    # plt.subplot(212)
+    # plt.plot(x1[:i+1],y1, color='green')
+    # plt.subplot(211)
 
 plt.ioff(); plt.show()
