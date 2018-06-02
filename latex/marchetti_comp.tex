@@ -98,21 +98,54 @@ probabilit\`a di sopravvivenza di entrare nel mating pool. In pratica cosa
 succede? Per scegliere ogni individuo del mating pool, faccio girare una ruota
 simile a quella di una lotteria\slide. Ogni tacca rappresenta  un individuo
 della popolazione iniziale. Quindi l'individuo scelto sar\`a esattamente uguale
-a quello indicato dalla ruota. Si noti che con questo metodo nel mating pool
-potrebbe esserci pi\`u di una copia di uno stesso individuo. Per questo motivo
-si rendono necessari i prossimi passaggi di crossing over e di mutazione.\slide
+a quello indicato dalla ruota. \slide
 
-Infatti se non ci fosse n\`e una ricombinazione, n\`e una modificazione dei DNA,
-l'algoritmo si limiterebbe a scegliere la migliore soluzione tra quelle
-iniziali, che ricordo essere generate casualmente. Serve allora implementare dei
-meccanismi che costruiscano soluzioni nuove.
+Arrivati sin qui \`e lecito chiedersi se effettivamente sia avvenuto un
+miglioramento dalla popolazione iniziale. Per dare un analisi quantitativa
+occorre definire il fitness medio\slide , che non \`e null'altro che la media
+dei fitness di una popolazione. Se ogni individuo ha una probabilit\`a $p$ di
+passare nel mating pool, ci si  aspetta che la frazione di individui nel mating
+pool uguali ad esso sia proprio $p$. \slide [breve commento alla formula]
 
-\slide Il primo di questi meccanismi \`e detto, in analogia con ci\`o che avviene
-durante la meiosi, crossing over. Nel mating pool, gli individui vengono accoppiati,
-e ad ogni coppia succede essenzialmente quello che \`e mostrato in figura: i DNA
-si scambiano casualmente alcune sezioni.
 
-\slide Il secondo meccanismo \`e invece detto mutazione. Alcuni
+Si noti che con questo metodo nel mating pool potrebbe esserci pi\`u di una
+copia di uno stesso individuo. Per questo motivo si rendono necessari i prossimi
+passaggi di crossing over e di mutazione. Infatti se non ci fosse n\`e una
+ricombinazione, n\`e una modificazione dei DNA, l'algoritmo si limiterebbe a
+scegliere la migliore soluzione tra quelle iniziali, che ricordo essere generate
+casualmente. Serve allora implementare dei meccanismi che costruiscano soluzioni
+nuove.
+
+\slide Il primo di questi meccanismi \`e detto, in analogia con ci\`o che
+avviene durante la meiosi, crossing over. Nel mating pool, gli individui vengono
+accoppiati, e ad ogni coppia succede essenzialmente quello che \`e mostrato in
+figura: i DNA si scambiano casualmente alcune sezioni.
+
+\slide Il secondo meccanismo \`e invece detto mutazione. Alcuni geni nel DNA
+vengono alterati con una probabilit\`a fissata generalmente bassa, nell'esempio
+pari a $0.001$.
+
+\slide Dalla tabella, in cui vengono messi a confronto gli individui delle due
+generazioni, risulta effettivamente evidente come si abbia avuto un incremento
+generale di fitness. Ci\`o \`e indice del fatto che le soluzioni della
+popolazione risolvono meglio il problema posto. Ripetendo pi\`u volte il
+percorso seguito di  selezione, crossing over e mutazione, la tendenza sar\`a
+quello di una migrazione  e convergenza verso la soluzione migliore. Quante
+volte sia necessario ripetere  non \`e stabilito a priori e questo fatto
+rappresenta il grosso limite degli algoritmi  genetici. Tuttavia non sempre \`e
+necessaria la soluzione migliore in assoluto,  ma solo una buona approssimazione
+di essa. Nel video che vi mostrer\`o \margin{Mostrare program max} si riproduce
+lo stesso algoritmo seguito ora, solo eseguito dal computer, con pi\`u individui
+per generazione e un DNA dalle dimensioni maggiori.
+
+Un altro esempio in cui sono riuscito ad applicare un algoritmo genetico \`e il
+problema del commesso viaggiatore. Il problema \`e cos\`i strutturato: dato un
+certo insieme di citt\`a (ovvero punti nel piano), trovare il percorso pi\`u
+breve  che passi per ciascuno di essi \margin{Mostrare program salesman}. Per
+quanto semplice sia la consegna, gli algoritmi  tradizionali sono messi in
+difficolt\`a. Sebbene la soluzione possa essere trovata,  richiederebbe un tempo
+di elaborazione molto lungo. Un algoritmo genetico magari  non trover\`a la
+soluzione migliore, ma almeno una soluzione molto buona, in un tempo minore.
 
 
 
