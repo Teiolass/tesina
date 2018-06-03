@@ -48,7 +48,7 @@ comuni ai due genitori.
 Per spiegare meglio il funzionamento operativo di un algoritmo genetico, \slide
 seguiremo passo a passo un caso specifico. Il problema di cui tratter\`o \`e di
 carattere matematico, ovvero la ricerca del massimo e del punto di massimo di
-una funzione in un  determinato intervallo chiuso. Ovvero, dato un grafico, il
+una funzione in un  determinato intervallo chiuso. Quindi, dato un grafico, il
 compito \`e quello di cercarne il punto pi\`u alto. La funzione che ho scelto
 \`e molto semplice \slide ed \`e una parabola. In questo caso, il massimo si
 trova all'estremo. Vediamo come opera un algoritmo genetico.
@@ -59,10 +59,11 @@ DNA, che andr\`a a identificare ogni individuo della popolazione di soluzioni.
 Dunque ho bisogno di un insieme (chiamato vocabolario) di basi azotate. Nel mio
 esempio lo scelgo nel modo pi\`u semplice (e naturale) possibile, ovvero
 composto da due elementi: zero e uno. Un DNA consiste in una stringa di cinque
-elementi. \`E anche necessaria una codifica dal genotipo al fenotipo, ovvero da
-ci\`o che il DNA indica e quale caratteristica effettivamente esprime un certo
-individuo. Nella pratica la stringa di zeri e uno verr\`a letta in codice
-binario e interpretata come posizione sull'asse delle ascisse.
+elementi del vocabolario. \`E anche necessaria una codifica dal genotipo al
+fenotipo, ovvero da ci\`o che il DNA indica e quale caratteristica
+effettivamente esprime un certo individuo. Nella pratica la stringa di zeri e
+uno verr\`a letta in codice binario e interpretata come posizione sull'asse
+delle ascisse.
 
 La popolazione iniziale viene generata in modo totalmente casuale. \slide Ci\`o
 significa che ogni possibile DNA ha la stessa probabilit\`a di essere
@@ -107,7 +108,6 @@ dei fitness di una popolazione. Se ogni individuo ha una probabilit\`a $p$ di
 passare nel mating pool, ci si  aspetta che la frazione di individui nel mating
 pool uguali ad esso sia proprio $p$. \slide [breve commento alla formula]
 
-
 Si noti che con questo metodo nel mating pool potrebbe esserci pi\`u di una
 copia di uno stesso individuo. Per questo motivo si rendono necessari i prossimi
 passaggi di crossing over e di mutazione. Infatti se non ci fosse n\`e una
@@ -146,6 +146,36 @@ quanto semplice sia la consegna, gli algoritmi  tradizionali sono messi in
 difficolt\`a. Sebbene la soluzione possa essere trovata,  richiederebbe un tempo
 di elaborazione molto lungo. Un algoritmo genetico magari  non trover\`a la
 soluzione migliore, ma almeno una soluzione molto buona, in un tempo minore.
+
+Vediamo ora un confronto pi\`u approfondito tra gli algoritmi genetici e la
+selezione naturale vera e propria\slide. La selezione naturale darwiniana si
+basa su alcuni semplici presupposti.\slide Il primo \`e quello
+dell'ereditariet\`a, ovvero che i genitori trasmettano le proprie
+caratteristiche ai propri discendenti. In secondo luogo solo una percentuale
+della prole deve riuscire a diventare adulta e procreare a sua volta. La
+popolazione inoltre deve presentare un'ampia variet\`a di caratteristiche al suo
+interno, e mantenerla con il passare delle  generazioni. Il quarto punto: la
+scelta tra quali individui si riprodurranno e  quali no \`e dettata
+principalmente dalle interazioni tra l'individuo e l'ambiente. In tal modo le
+interazioni favorevoli all'individuo aumenteranno di numero con  il passare del
+tempo. Infine i cambiamenti tra gli individui devono essere in grado, dopo un
+periodo sufficientemente lungo, di identificare specie differenti.
+
+Per come abbiamo strutturato l'algoritmo, tutti questi punti sono rispettati, se
+non l'ultimo. Infatti tra gli individui di una popolazione dell'algoritmo non si
+andranno mai a generare le condizioni per la nascita di nuove specie, perch\`e
+ogni individuo avr\`a sempre la capacit\`a di riprodursi con ogni altro
+individuo, non importa quanto diverso. A un'analisi pi\`u attenta si nota che i
+meccanismi naturali per il mantenimento della variabilit\`a genetica  presentano
+un'enorme differenza. Infatti la natura ha sviluppato un sistema per  fare in
+modo che ogni individuo porti con s\`e molte pi\`u informazioni di quante
+effettivamente utilizzi: si tratta della poliploidia. Per esempio l'uomo ha  23
+coppie di cromosomi (detti omologhi), di cui per\`o sono utilizzati soltato la
+met\`a. Tuttavia nel momento della riproduzione \`e possibile che alla
+generazione successiva venga trasferito il cromosoma non utilizzato. I primi
+studi su questo genere di fenomeni furono effettuati da Mendel, con i suoi
+famosi esperimenti sulle piante di pisello.
+
 
 
 
