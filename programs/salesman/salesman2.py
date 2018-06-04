@@ -1,7 +1,3 @@
-"""
-Visualize Genetic Algorithm to find the shortest path for travel sales problem.
-Visit my tutorial website for more: https://morvanzhou.github.io/tutorials/
-"""
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -67,6 +63,7 @@ class GA(object):
             parent[:] = child
         self.pop = pop
 
+    # STATISTICHE DI FREQUENZA ALLELICA
     def analyze(self):
         stat = self.DNA_size * [0]
         for ind in self.pop:
@@ -105,6 +102,17 @@ class TravelSalesPerson(object):
         plt.ion()
 
     def plotting(self, lx, ly, total_d):
+        # PRINT ON FILE
+        txt = ''
+        for city in self.city_position:
+            posx = city[0]
+            posy = city[1]
+            txt += '{},{},'.format(posx, posy)
+        txt = txt[:-1]
+        txt = '{}{}'.format(txt, '\n')
+        with open('results.csv', 'a') as file:
+            file.write(txt)
+        # PRINT ON GRAPH
         plt.cla()
         plt.scatter(self.city_position[:, 0].T, self.city_position[:, 1].T, s=100, c='k')
         for i in range(len(self.city_position)):
@@ -146,7 +154,6 @@ for generation in range(N_GENERATIONS):
     ga.evolve(fitness)
     best_idx = np.argmax(fitness)
     print('Gen:', generation, '| best fit: %.2f' % fitness[best_idx],)
-    ga.analyze()
 
     env.plotting(lx[best_idx], ly[best_idx], total_distance[best_idx])
 
