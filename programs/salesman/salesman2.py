@@ -5,7 +5,7 @@ N_CITIES = 4  # DNA size
 CROSS_RATE = 0.1
 MUTATE_RATE = 0.02
 POP_SIZE = 500
-N_GENERATIONS = 200
+N_GENERATIONS = 500
 
 
 class GA(object):
@@ -64,6 +64,7 @@ class GA(object):
         self.pop = pop
 
     # STATISTICHE DI FREQUENZA ALLELICA
+    # AL MOMENTO NON CHIAMATO
     def analyze(self):
         stat = self.DNA_size * [0]
         for ind in self.pop:
@@ -102,16 +103,6 @@ class TravelSalesPerson(object):
         plt.ion()
 
     def plotting(self, lx, ly, total_d):
-        # PRINT ON FILE
-        txt = ''
-        for city in self.city_position:
-            posx = city[0]
-            posy = city[1]
-            txt += '{},{},'.format(posx, posy)
-        txt = txt[:-1]
-        txt = '{}{}'.format(txt, '\n')
-        with open('results.csv', 'a') as file:
-            file.write(txt)
         # PRINT ON GRAPH
         plt.cla()
         plt.scatter(self.city_position[:, 0].T, self.city_position[:, 1].T, s=100, c='k')
@@ -153,6 +144,18 @@ for generation in range(N_GENERATIONS):
     fitness, total_distance = ga.get_fitness(lx, ly)
     ga.evolve(fitness)
     best_idx = np.argmax(fitness)
+
+    # PRINT ON FILE
+    txt = ''
+    for city in zip(lx[best_idx],ly[best_idx]):
+        posx = city[0]
+        posy = city[1]
+        txt += '{},{},'.format(posx, posy)
+    txt = '{}{}{}'.format(txt, total_distance[best_idx], '\n')
+    with open('results.csv', 'a') as file:
+        file.write(txt)
+
+
     print('Gen:', generation, '| best fit: %.2f' % fitness[best_idx],)
 
     env.plotting(lx[best_idx], ly[best_idx], total_distance[best_idx])

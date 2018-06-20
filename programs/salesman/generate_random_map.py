@@ -11,7 +11,7 @@ txt = ''
 for city in map:
     txt += str(city[0])
     txt += ','
-    txt += str(city[1])
+    txt += str(city[1]*9/16)
     txt += '\n'
 
 with open('map.csv', 'w') as file:
